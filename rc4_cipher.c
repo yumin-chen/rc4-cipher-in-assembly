@@ -9,6 +9,19 @@
 #include <stdlib.h>
 #include <string.h>
 
+/**
+ * Encrypt or decrypt data using RC4 stream cipher.
+ * The input and output buffers may be the same buffer.
+ * Since RC4 is a stream cypher, this function is used
+ * for both encryption and decryption.
+ *
+ * @param inbuf This is the source data that needs to be encrypted.
+ * @param outbuf This is the encrypted result data.
+ * @param buflen The length of the source data and result data.
+ * @param msg This is the message(password) used for encryption.
+ * @param msglen The length of the message string.
+ * @return If success, return the length of the result data buffer. Otherwise, return -1.
+ */
 int rc4_x86(const void *inbuf, void *outbuf, size_t buflen, const char *msg, size_t msglen)
 {
 	char s[256];
@@ -17,7 +30,7 @@ int rc4_x86(const void *inbuf, void *outbuf, size_t buflen, const char *msg, siz
 	char *k_ptr = k;
 
 	if(buflen <= 0)
-		return 0;
+		return -1;
 
 	// Initialize RC4 state
 
