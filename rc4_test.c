@@ -8,12 +8,16 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <time.h>
 
-int rc4_x86(const void *inbuf, void *outbuf, size_t buflen, const char *msg, size_t msglen);
-int rc4_c(const void *inbuf, void *outbuf, size_t buflen, const char *msg, size_t msglen);
+int rc4_x86(const void *inbuf, void *outbuf, size_t buflen, const char *key, size_t keylen);
+int rc4_c(const void *inbuf, void *outbuf, size_t buflen, const char *key, size_t keylen);
 
 int main(int argc, char* argv[])
 {
+	// Benchmark speed
+	const int TRIALS = 300000;
+
 
 	char password[] = "password";
 	char data[] = "This is the data that needs to be encrypted";
@@ -34,7 +38,7 @@ int main(int argc, char* argv[])
 }
 
 
-int rc4_c(const void *inbuf, void *outbuf, size_t buflen, const char *msg, size_t msglen)
+int rc4_c(const void *inbuf, void *outbuf, size_t buflen, const char *key, size_t keylen)
 {
 	char s[256];
 	char k[256];
@@ -52,7 +56,7 @@ int rc4_c(const void *inbuf, void *outbuf, size_t buflen, const char *msg, size_
 		// Fill s with 0..255  
 		s[i] = i;
 		// Generate k
-		k[i] = msg[i % msglen];
+		k[i] = key[i % keylen];
 	}
 	
 	j = 0;

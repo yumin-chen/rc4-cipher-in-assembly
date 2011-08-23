@@ -16,11 +16,11 @@
  * @param inbuf This is the source data that needs to be encrypted.
  * @param outbuf This is the encrypted result data.
  * @param buflen The length of the source data and result data.
- * @param msg This is the message(password) used for encryption.
- * @param msglen The length of the message string.
+ * @param key This is the key(password) used for encryption.
+ * @param keylen The length of the message string.
  * @return If success, return the length of the result data buffer. Otherwise, return -1.
  */
-int rc4_x86(const void *inbuf, void *outbuf, size_t buflen, const char *msg, size_t msglen)
+int rc4_x86(const void *inbuf, void *outbuf, size_t buflen, const char *key, size_t keylen)
 {
 	char s[256];
 	char *s_ptr = s;
@@ -45,15 +45,15 @@ int rc4_x86(const void *inbuf, void *outbuf, size_t buflen, const char *msg, siz
 
 	// Generate k
 	__asm {
-		mov edx, msg
-		mov edi, msglen ;//edi = size of msg
+		mov edx, key
+		mov edi, keylen ;//edi = size of key
 		mov esi, k_ptr ;//esi= k;
 		mov ecx, 256
 		xor ebx, ebx ;//ebx=j
 loop_j:
 		cmp ebx, edi
 			jl continue_loop
-			xor ebx, ebx ;// clear ebx, move to the start of msg, repeat until k is full
+			xor ebx, ebx ;// clear ebx, move to the start of key, repeat until k is full
 continue_loop:
 		mov ah, [edx + ebx]
 		mov [esi], ah
