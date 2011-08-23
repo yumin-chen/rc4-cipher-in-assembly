@@ -13,26 +13,71 @@
 int rc4_x86(const void *inbuf, void *outbuf, size_t buflen, const char *key, size_t keylen);
 int rc4_c(const void *inbuf, void *outbuf, size_t buflen, const char *key, size_t keylen);
 
+char* string_repeat( int n, const char * s );
+
 int main(int argc, char* argv[])
 {
-	// Benchmark speed
-	const int TRIALS = 300000;
-
-
 	char password[] = "password";
 	char data[] = "This is the data that needs to be encrypted";
-	void *encryptedData = malloc(sizeof(data));
-	void *decryptedData = malloc(sizeof(data));
-	printf("Raw data:\n%s \n\n", data);
-	rc4_c(data, encryptedData, sizeof(data), password, sizeof(password));
-	printf("Encrypted data:\n%s \n\n", encryptedData);
-	rc4_x86(encryptedData, decryptedData, sizeof(data), password, sizeof(password));
-	printf("Decrypted data:\n%s \n\n", decryptedData);
-	if(strcmp(data, (char*)decryptedData) == 0){
-		printf("Raw data matches decrypted data! Success!\n");
-	}else{
-		printf("Raw data does not match decrypted data! Data damaged!\n");
-	}
+	size_t datalen = sizeof(data);
+	char *data_long;
+	void *encryptedData = malloc(datalen);
+	void *decryptedData = malloc(datalen);
+
+	// Benchmark speed
+	const int TRIALS = 10000;
+	int i;
+	time_t start;
+	time_t t_c;
+	time_t t_x86;
+
+	// Short data benchmark test
+	printf("For short data (size %d)\n", datalen);
+
+	start = clock();
+	for (i = 0; i < TRIALS; i++)
+		rc4_c(data, encryptedData, datalen, password, sizeof(password));
+	t_c = clock() - start;
+	printf("C code time consumed: %d ms.\n", t_c);
+
+	start = clock();
+	for (i = 0; i < TRIALS; i++)
+		rc4_x86(encryptedData, decryptedData, datalen, password, sizeof(password));
+	t_x86 = clock() - start;
+	printf("Assembly code time consumed: %d ms.\n", t_x86);
+
+	printf("The Assembly version is %.2fx faster than the c version.\n\n", (double)t_c / t_x86);
+
+	if(memcmp(data, (char*)decryptedData, datalen) != 0)
+		printf("Raw data does not match decrypted data! Data damaged!\n\n");
+
+	
+	// Long data benchmark test
+	data_long = string_repeat(1000, "This is the data that needs to be encrypted");
+	datalen *= 1000;
+	encryptedData = malloc(datalen);
+	decryptedData = malloc(datalen);
+	
+	printf("For long data (size %d):\n", datalen);
+
+	start = clock();
+	for (i = 0; i < TRIALS; i++)
+		rc4_c(data_long, encryptedData, datalen, password, sizeof(password));
+	t_c = clock() - start;
+	printf("C code time consumed: %d ms.\n", t_c);
+
+	start = clock();
+	for (i = 0; i < TRIALS; i++)
+		rc4_x86(encryptedData, decryptedData, datalen, password, sizeof(password));
+	t_x86 = clock() - start;
+	printf("Assembly code time consumed: %d ms.\n", t_x86);
+
+	printf("The Assembly version is %.2fx faster than the c version.\n\n", (double)t_c / t_x86);
+
+	if(memcmp(data_long, (char*)decryptedData, datalen) != 0)
+		printf("Raw data does not match decrypted data! Data damaged!\n\n");
+	free(data_long);
+
 	getchar();
     return 0;
 }
@@ -42,7 +87,7 @@ int rc4_c(const void *inbuf, void *outbuf, size_t buflen, const char *key, size_
 {
 	char s[256];
 	char k[256];
-	int i;
+	unsigned int i;
 	unsigned char j;
 	unsigned char temp;
 	
@@ -51,7 +96,6 @@ int rc4_c(const void *inbuf, void *outbuf, size_t buflen, const char *key, size_
 
 	// Initialize RC4 state
 
-	
 	for(i = 0; i < sizeof(s); i++){
 		// Fill s with 0..255  
 		s[i] = i;
@@ -83,4 +127,16 @@ int rc4_c(const void *inbuf, void *outbuf, size_t buflen, const char *key, size_
 
 	return buflen;
 
+}
+
+char * string_repeat( int n, const char * s ) {
+  size_t slen = strlen(s);
+  char * dest = (char *)malloc(n*slen+1);
+ 
+  int i; char * p;
+  for ( i=0, p = dest; i < n; ++i, p += slen ) {
+    memcpy(p, s, slen);
+  }
+  *p = '\0';
+  return dest;
 }
