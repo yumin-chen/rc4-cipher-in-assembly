@@ -6,8 +6,6 @@
 */
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
 
 /**
  * Encrypt or decrypt data using RC4 stream cipher.
@@ -131,27 +129,6 @@ cd:
 	}
 
 	return buflen;
-}
-
-int main(int argc, char* argv[])
-{
-
-	char password[] = "password";
-	char data[] = "This is the data that needs to be encrypted";
-	void *encryptedData = malloc(sizeof(data));
-	void *decryptedData = malloc(sizeof(data));
-	printf("Raw data:\n%s \n\n", data);
-	rc4_x86(data, encryptedData, sizeof(data), password, sizeof(password));
-	printf("Encrypted data:\n%s \n\n", encryptedData);
-	rc4_x86(encryptedData, decryptedData, sizeof(data), password, sizeof(password));
-	printf("Decrypted data:\n%s \n\n", decryptedData);
-	if(strcmp(data, (char*)decryptedData) == 0){
-		printf("Raw data matches decrypted data! Success!\n");
-	}else{
-		printf("Raw data does not match decrypted data! Data damaged!\n");
-	}
-	getchar();
-    return 0;
 }
 
 
