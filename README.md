@@ -6,11 +6,12 @@ Details of this project can be found on the [RC4 Cipher project page][2] under:
 Introduction
 ------------------------
 [RC4 Cipher in Assembly][2] is the RC4 stream cipher implemented in Assembly language for faster speed.  
+For more information about the RC4 stream cipher, please read [Wikipedia: RC4](https://en.wikipedia.org/wiki/RC4).  
 
 
 Instruction
 ------------------------
-This project uses inline assemly in C to optimize the RC4 sstream cipher, so the assembly code is in Intel style syntax that is supported by Microsoft Assembler (MASM). Thus, you should be using Microsoft Visual C++ to compile the code.  
+This project uses inline assemly in C to optimize the RC4 stream cipher, so the assembly code is in Intel style syntax that is supported by Microsoft Assembler (MASM). Thus, you should be using Microsoft Visual C++ to compile the code.  
 The [rc4_cipher.c](rc4_cipher.c) file contains the x86 assemly version of the RC cipher.  
 The [rc4_test.c](rc4_test.c) file contains the C version of the RC cipher and a benchmark test example to demonstrate the speed improvement.  
 The [rc4_cipher.e](rc4_cipher.e) file is for E language (or EPL) users.  
