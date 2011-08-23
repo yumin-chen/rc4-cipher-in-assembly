@@ -38,9 +38,8 @@ int rc4_x86(const void *inbuf, void *outbuf, size_t buflen, const char *msg, siz
 	__asm {
 		mov eax, s_ptr
 		mov ecx, 256
-		xor ebx, ebx
 		fill_s:
-			mov bl, 256
+			xor ebx, ebx
 			sub bl, cl
 			mov [eax + ebx], bl
 		loop fill_s
@@ -137,8 +136,8 @@ cd:
 int main(int argc, char* argv[])
 {
 
-	char password[] = "this is the password";
-	char data[] = "This is the data to be encrypted";
+	char password[] = "password";
+	char data[] = "This is the data that needs to be encrypted";
 	void *encryptedData = malloc(sizeof(data));
 	void *decryptedData = malloc(sizeof(data));
 	printf("Raw data:\n%s \n\n", data);
@@ -146,8 +145,11 @@ int main(int argc, char* argv[])
 	printf("Encrypted data:\n%s \n\n", encryptedData);
 	rc4_x86(encryptedData, decryptedData, sizeof(data), password, sizeof(password));
 	printf("Decrypted data:\n%s \n\n", decryptedData);
-	if(strcmp(data, (char*)decryptedData) == 0)
-		printf("Raw data matches decrypted data! Success!\n", decryptedData);
+	if(strcmp(data, (char*)decryptedData) == 0){
+		printf("Raw data matches decrypted data! Success!\n");
+	}else{
+		printf("Raw data does not match decrypted data! Data damaged!\n");
+	}
 	getchar();
     return 0;
 }
