@@ -1,4 +1,4 @@
-**RC4 Cipher in Assembly**
+<img src="http://raw.github.com/CharmySoft/rc4-cipher-in-assembly/master/icons/icon.png" width="48"/>&nbsp;&nbsp;**RC4 Cipher in Assembly**
 ========================
 Details of this project can be found on the [RC4 Cipher project page][2] under:  
 [*http://www.CharmySoft.com/app/rc4-cipher.htm*][2]

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 16.0.3, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+<svg version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+	 width="64px" height="64px" viewBox="0 0 64 64" enable-background="new 0 0 64 64" xml:space="preserve">
+<path fill="#E4F1FE" d="M64,52c0,6.627-5.373,12-12,12H12C5.373,64,0,58.627,0,52V12C0,5.373,5.373,0,12,0h40
+	c6.627,0,12,5.373,12,12V52z"/>
+<text transform="matrix(1 0 0 1 12.1665 27.5)" fill="#304E62" font-family="'Consolas'" font-size="24">ASM</text>
+<text transform="matrix(1 0 0 1 12.3335 52.833)" fill="#304E62" font-family="'Consolas'" font-size="24">RC4</text>
+</svg>
